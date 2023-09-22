@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ErrorMessage } from "../ErrorMessage";
 import { FunctionalTextInput } from "./FunctionalTextInput";
-import { isNameValid } from "../utils/validations";
+import { isCityValid, isNameValid } from "../utils/validations";
 import { OnChangeInputType } from "../types";
 
 const firstNameErrorMessage = "First name must be at least 2 characters long";
@@ -15,12 +15,15 @@ export const FunctionalForm = () => {
   
   const [firstNameInput, setFirstNameInput] = useState("");
   const [lastNameInput, setLastNameInput] = useState("");
+  const [cityNameInput, setCityNameInput] = useState("");
 
   const firstNameIsValid = isNameValid(firstNameInput);
   const lastNameIsValid = isNameValid(lastNameInput);
+  const cityNameIsValid = isCityValid(cityNameInput);
 
   const showFirstNameError = isSubmitted && !firstNameIsValid;
   const showLastNameError = isSubmitted && !lastNameIsValid;
+  const showCityNameError = isSubmitted && !cityNameIsValid;
 
   return (
     <form onSubmit={(e) => {
@@ -64,11 +67,18 @@ export const FunctionalForm = () => {
       <ErrorMessage message={emailErrorMessage} show={isSubmitted} />
 
       {/* City Input */}
-      <div className="input-wrap">
-        <label>{"City"}:</label>
-        <input placeholder="Hobbiton" />
-      </div>
-      <ErrorMessage message={cityErrorMessage} show={isSubmitted} />
+      <FunctionalTextInput 
+        label={"City"}
+        inputProps={{
+          type: "text",
+          placeholder: "Hobbiton",
+          value: cityNameInput,
+          list: "cities",
+          onChange: ({target: {value}}: {target: {value: string}}) => { setCityNameInput(value) }
+        }}
+      />
+    
+      <ErrorMessage message={cityErrorMessage} show={showCityNameError} />
 
       <div className="input-wrap">
         <label htmlFor="phone">Phone:</label>

@@ -5,5 +5,3 @@ export type UserInformation = {
     city: string;
     phone: string;
 }
-
-export type OnChangeInputType = (input: string) => undefined; 
