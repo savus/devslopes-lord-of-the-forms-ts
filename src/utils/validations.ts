@@ -3,3 +3,9 @@ export function isEmailValid(emailAddress: string) {
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return !!emailAddress.match(regex);
 }
+
+export function isNameValid(name: string) {
+    return name 
+        .split('')
+        .every((char: string) => char.toUpperCase() !== char.toLowerCase()) && name.length > 2;
+}
