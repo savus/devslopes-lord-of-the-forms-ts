@@ -19,3 +19,7 @@ export function isCityValid(name: string) {
   const decapitalizedCities = allCities.map((city) => city.toLowerCase());
   return decapitalizedCities.includes(name.toLowerCase());
 }
+
+export function isPhoneValid(phoneNum: []) {
+  return phoneNum.join("").length === 7;
+}

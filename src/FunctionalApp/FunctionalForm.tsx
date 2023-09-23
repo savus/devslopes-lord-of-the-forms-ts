@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { ErrorMessage } from "../ErrorMessage";
 import { FunctionalTextInput } from "./FunctionalTextInput";
-import { isCityValid, isEmailValid, isNameValid } from "../utils/validations";
+import {
+  isCityValid,
+  isEmailValid,
+  isNameValid,
+  isPhoneValid,
+} from "../utils/validations";
 import { FunctionalPhoneInput } from "./FunctionalPhoneInput";
+import { PhoneInputState } from "../types";
 
 const firstNameErrorMessage = "First name must be at least 2 characters long";
 const lastNameErrorMessage = "Last name must be at least 2 characters long";
@@ -17,22 +23,40 @@ export const FunctionalForm = () => {
   const [lastNameInput, setLastNameInput] = useState("");
   const [cityNameInput, setCityNameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
+  const [phoneInputState, setPhoneInputState] = useState<PhoneInputState>([
+    "",
+    "",
+    "",
+    "",
+  ]);
 
   const firstNameIsValid = isNameValid(firstNameInput);
   const lastNameIsValid = isNameValid(lastNameInput);
   const cityNameIsValid = isCityValid(cityNameInput);
   const emailIsValid = isEmailValid(emailInput);
+  const phoneIsValid = isPhoneValid(phoneInputState);
 
   const showFirstNameError = isSubmitted && !firstNameIsValid;
   const showLastNameError = isSubmitted && !lastNameIsValid;
   const showCityNameError = isSubmitted && !cityNameIsValid;
   const showEmailError = isSubmitted && !emailIsValid;
+  const showPhoneError = isSubmitted && !phoneIsValid;
+
+  const doBadInputsExist =
+    !firstNameIsValid ||
+    !lastNameIsValid ||
+    !cityNameIsValid ||
+    !emailIsValid ||
+    !isPhoneValid;
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         setIsSubmitted(true);
+        if (doBadInputsExist) {
+          alert("Bad Inputs");
+        }
       }}
     >
       <u>
@@ -102,9 +126,14 @@ export const FunctionalForm = () => {
 
       <ErrorMessage message={cityErrorMessage} show={showCityNameError} />
 
-      <FunctionalPhoneInput />
+      <FunctionalPhoneInput
+        phoneInput={phoneInputState}
+        phoneInputHandler={(phoneInputState) => {
+          setPhoneInputState(phoneInputState);
+        }}
+      />
 
-      <ErrorMessage message={phoneNumberErrorMessage} show={isSubmitted} />
+      <ErrorMessage message={phoneNumberErrorMessage} show={showPhoneError} />
 
       <input type="submit" value="Submit" />
     </form>

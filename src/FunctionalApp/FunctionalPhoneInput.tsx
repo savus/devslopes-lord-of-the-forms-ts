@@ -1,10 +1,8 @@
-import { ChangeEventHandler, useRef, useState } from "react";
+import { ChangeEventHandler, Dispatch, SetStateAction, useRef, useState } from "react";
 import { FunctionalTextInput } from "./FunctionalTextInput";
 import { PhoneInputState } from "../types";
-import { doNumbersExist } from "../utils/validations";
 
-export function FunctionalPhoneInput() {
-   const [phoneInputState, setPhoneInputState] = useState<PhoneInputState>(["","","",""]);
+export function FunctionalPhoneInput({ phoneInput, phoneInputHandler}: {phoneInput: PhoneInputState, phoneInputHandler: Dispatch<SetStateAction<PhoneInputState>>}) {
    const refs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)]
    const maxLengths = [2,2,2,1];
 
@@ -17,7 +15,7 @@ export function FunctionalPhoneInput() {
       const shouldGoToNextRef = value.length === currentMaxLength;
       const shouldGoToPrevRef = value.length === 0;
 
-      const newState = phoneInputState.map((phoneInput, phoneIndex) => 
+      const newState = phoneInput.map((phoneInput, phoneIndex) => 
          (index === phoneIndex) ? value : phoneInput) as PhoneInputState;
       
       if (shouldGoToNextRef) {
@@ -28,7 +26,7 @@ export function FunctionalPhoneInput() {
          prevRef.current?.focus();
       }
 
-      setPhoneInputState(newState);
+      phoneInputHandler(newState);
    }
 
    return (
@@ -41,7 +39,7 @@ export function FunctionalPhoneInput() {
                type:"text",
                id: "phone-input-1",
                placeholder: "55",
-               value: phoneInputState[0],
+               value: phoneInput[0],
                onChange: onChangeEventHandler(0),
                ref: refs[0],
                maxLength: maxLengths[0]
@@ -55,7 +53,7 @@ export function FunctionalPhoneInput() {
                type:"text",
                id: "phone-input-1",
                placeholder: "55",
-               value: phoneInputState[1],
+               value: phoneInput[1],
                onChange: onChangeEventHandler(1),
                ref: refs[1],
                maxLength: maxLengths[1]
@@ -69,7 +67,7 @@ export function FunctionalPhoneInput() {
                type:"text",
                id: "phone-input-1",
                placeholder: "55",
-               value: phoneInputState[2],
+               value: phoneInput[2],
                onChange: onChangeEventHandler(2),
                ref: refs[2],
                maxLength: maxLengths[2]
@@ -83,7 +81,7 @@ export function FunctionalPhoneInput() {
                type:"text",
                id: "phone-input-1",
                placeholder: "5",
-               value: phoneInputState[3],
+               value: phoneInput[3],
                onChange: onChangeEventHandler(3),
                ref: refs[3],
                maxLength: maxLengths[3]
