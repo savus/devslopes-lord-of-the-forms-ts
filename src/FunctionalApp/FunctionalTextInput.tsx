@@ -1,5 +1,17 @@
-export function FunctionalTextInput({label, inputProps}: {label: string, inputProps: InputProps}) {
-  return (
+import { InputProps } from "../types";
+
+export function FunctionalTextInput({
+  label = "",
+  inputProps,
+  isPhoneInput = false,
+}: {
+  label: string;
+  inputProps: InputProps;
+  isPhoneInput: boolean;
+}) {
+  return isPhoneInput ? (
+    <input {...inputProps} />
+  ) : (
     <div className="input-wrap">
       <label>{label}:</label>
       <input {...inputProps} />
