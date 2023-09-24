@@ -8,7 +8,7 @@ import {
   isPhoneValid,
 } from "../utils/validations";
 import { FunctionalPhoneInput } from "./FunctionalPhoneInput";
-import { PhoneInputState } from "../types";
+import { PhoneInputState, UserInformation } from "../types";
 
 const firstNameErrorMessage = "First name must be at least 2 characters long";
 const lastNameErrorMessage = "Last name must be at least 2 characters long";
@@ -16,7 +16,11 @@ const emailErrorMessage = "Email is Invalid";
 const cityErrorMessage = "State is Invalid";
 const phoneNumberErrorMessage = "Invalid Phone Number";
 
-export const FunctionalForm = () => {
+export const FunctionalForm = ({
+  userInformationHandler,
+}: {
+  userInformationHandler: (userInformation: UserInformation) => void;
+}) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [firstNameInput, setFirstNameInput] = useState("");
@@ -56,6 +60,14 @@ export const FunctionalForm = () => {
         setIsSubmitted(true);
         if (doBadInputsExist) {
           alert("Bad Inputs");
+        } else {
+          userInformationHandler({
+            firstName: firstNameInput,
+            lastName: lastNameInput,
+            city: cityNameInput,
+            email: emailInput,
+            phone: phoneInputState.join(""),
+          });
         }
       }}
     >

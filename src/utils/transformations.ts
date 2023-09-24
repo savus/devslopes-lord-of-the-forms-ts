@@ -9,5 +9,5 @@ export const capitalize = (name: string) => {
 export const formatPhoneNumber = (phoneNum: string) => {
     // todo: build this function
     // `formatPhoneNumber("1234567")` should be `"12-34-56-7"`
-    return phoneNum.match(/\d{1,3}/g)?.join("-");
+    return phoneNum.match(/\d{1,2}/g)?.join("-");
 }

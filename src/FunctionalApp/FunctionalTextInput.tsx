@@ -1,9 +1,9 @@
 import { InputProps } from "../types";
 
 export function FunctionalTextInput({
-  label = "",
+  label,
   inputProps,
-  isPhoneInput = false,
+  isPhoneInput,
 }: {
   label: string;
   inputProps: InputProps;

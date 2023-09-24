@@ -1,5 +1,8 @@
 import { Component } from "react";
 import { ErrorMessage } from "../ErrorMessage";
+import { ClassTextInput } from "./ClassTextInput";
+import { PhoneInputState } from "../types";
+import { isNameValid } from "../utils/validations";
 
 const firstNameErrorMessage = "First name must be at least 2 characters long";
 const lastNameErrorMessage = "Last name must be at least 2 characters long";
@@ -8,19 +11,43 @@ const cityErrorMessage = "State is Invalid";
 const phoneNumberErrorMessage = "Invalid Phone Number";
 
 export class ClassForm extends Component {
+  state = {
+    isSubmitted: false,
+    firstNameInput: "",
+    lastNameInput: "",
+    emailInput: "",
+    cityNameInput: "",
+    phoneInputState: ["", "", "", ""]
+  };
+
   render() {
+    const {isSubmitted, firstNameInput, lastNameInput, emailInput, phoneInputState} = this.state;
+    
+    const firstNameIsValid = isNameValid(firstNameInput);
+
+    const showFirstNameError = isSubmitted && !firstNameIsValid;
     return (
-      <form>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        this.setState({isSubmitted: true});
+      }}>
         <u>
           <h3>User Information Form</h3>
         </u>
 
         {/* first name input */}
-        <div className="input-wrap">
-          <label>{"First Name"}:</label>
-          <input placeholder="Bilbo" />
-        </div>
-        <ErrorMessage message={firstNameErrorMessage} show={true} />
+        <ClassTextInput 
+          label={"First Name"}
+          inputProps={{
+            type: "text",
+            placeholder: "Bilbo",
+            value: firstNameInput,
+            onChange: ({target: {value}}) => this.setState({firstNameInput: value})
+          }}
+          isPhone={false}
+        />
+
+        <ErrorMessage message={firstNameErrorMessage} show={showFirstNameError} />
 
         {/* last name input */}
         <div className="input-wrap">

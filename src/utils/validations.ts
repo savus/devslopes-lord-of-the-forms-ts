@@ -1,3 +1,4 @@
+import { PhoneInputState } from "../types";
 import { allCities } from "./all-cities";
 
 export function isEmailValid(emailAddress: string) {
@@ -20,6 +21,6 @@ export function isCityValid(name: string) {
   return decapitalizedCities.includes(name.toLowerCase());
 }
 
-export function isPhoneValid(phoneNum: []) {
+export function isPhoneValid(phoneNum: PhoneInputState) {
   return phoneNum.join("").length === 7;
 }
